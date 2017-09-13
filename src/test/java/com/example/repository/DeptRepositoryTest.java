@@ -24,9 +24,9 @@ import com.example.domain.Dept;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-//@ActiveProfiles("oracle")
+@ActiveProfiles("oracle")
 //@ActiveProfiles("mysql-ec2")
-@ActiveProfiles("mysql")
+//@ActiveProfiles("mysql")
 //@DataJpaTest
 public class DeptRepositoryTest {
 
@@ -36,11 +36,11 @@ public class DeptRepositoryTest {
 	@Test
 	public void insert() {
 		System.out.println(deptRepository.getClass());
-		deptRepository.save(new Dept(new BigInteger("10"), "경리부", "서울"));
+		deptRepository.save(new Dept(new BigInteger("10"), "경리부x", "서울"));
 		
 		System.out.println(deptRepository.findOne(new BigInteger("10")));
 		
-		assertEquals(new Dept(new BigInteger("10"), "경리부", "서울"), 
+		assertEquals(new Dept(new BigInteger("10"), "경리부x", "서울"), 
 				deptRepository.findOne(new BigInteger("10")));
 	}
 	
@@ -48,11 +48,11 @@ public class DeptRepositoryTest {
 	public void update() {
 		System.out.println(deptRepository.getClass());
 		deptRepository.save(new Dept(new BigInteger("10"), "경리부", "서울"));
-		deptRepository.save(new Dept(new BigInteger("10"), "경리부x", "서울x"));
+		deptRepository.save(new Dept(new BigInteger("10"), "경리부y", "서울y"));
 		
 		System.out.println(deptRepository.findOne(new BigInteger("10")));
 		
-		assertEquals(new Dept(new BigInteger("10"), "경리부x", "서울x"), 
+		assertEquals(new Dept(new BigInteger("10"), "경리부y", "서울y"), 
 				deptRepository.findOne(new BigInteger("10")));
 	}
 	
@@ -61,7 +61,13 @@ public class DeptRepositoryTest {
 		System.out.println(deptRepository.getClass());
 		deptRepository.save(new Dept(new BigInteger("10"), "경리부", "서울"));
 		deptRepository.save(new Dept(new BigInteger("10"), "경리부x", "서울x"));
-		deptRepository.delete(new BigInteger("10"));
+		try {
+			deptRepository.delete(new BigInteger("10"));
+		} catch (DataIntegrityViolationException e) {
+			e.getMessage();
+			e.printStackTrace();
+			return;
+		}
 		
 		System.out.println(deptRepository.findOne(new BigInteger("10")));
 		
