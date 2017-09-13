@@ -1,6 +1,7 @@
 package com.example.domain;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class Dept {
 	@Id
 	@Column(precision=2)
-	private BigDecimal deptno;
+	private BigInteger deptno;
 	@Column(length=14, nullable=false)
 	private String dname;
 	@Column(length=13)
